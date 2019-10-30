@@ -23,6 +23,7 @@ server.get('/api/users', (req, res) => {
         });
 });
 
+
 server.get('/api/users/:id', (req, res) => {
     const { id } = req.params;
     
@@ -69,5 +70,20 @@ server.delete('/api/users/:id', (req, res) => {
 });
 
 server.put('/api/users/:id', (req, res) => {
-    
-})
+    const { id } = req.params;
+    if(!req.body.name || !req.body.bio) {
+        res.status(400).json({ errorMessage: "Please provide a name and bio for the user." });
+    } else {
+        db.update(id, req.body)
+            .then(updateNumber => {
+                if(updateNumber) {
+                    res.status(200).json(updateNumber);
+                } else {
+                    res.status(404).json({ message: "The user with the specified ID does not exist." });
+                }
+            })
+            .catch(err => {
+                res.status(500).json({ errorMessage: "The user information could not be modified." });
+            });
+        };
+});
