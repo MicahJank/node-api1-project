@@ -13,6 +13,21 @@ server.listen(4000, () => {
 // it will be an actual object.
 server.use(express.json());
 
+server.post('/api/users', (req, res) => {
+    const { name, bio } = req.body;
+    if(!name || !bio) {
+        res.status(400).json({ errorMessage: "Please provide name and bio for the user." });
+    } else {
+        db.insert(req.body)
+            .then(userDoc => {
+                res.status(201).json(userDoc);
+            })
+            .catch(err => {
+                res.status(500).json({ error: "There was an error while saving the user to the database" });
+            });
+    };
+});
+
 server.get('/api/users', (req, res) => {
     db.find()
         .then(users => {
@@ -40,25 +55,11 @@ server.get('/api/users/:id', (req, res) => {
         });
 });
 
-server.post('/api/users', (req, res) => {
-    if(!req.body.name || !req.body.bio) {
-        res.status(400).json({ errorMessage: "Please provide name and bio for the user." });
-    } else {
-        db.insert(req.body)
-            .then(userDoc => {
-                res.status(201).json(userDoc);
-            })
-            .catch(err => {
-                res.status(500).json({ error: "There was an error while saving the user to the database" });
-            });
-    };
-});
-
 server.delete('/api/users/:id', (req, res) => {
     const { id } = req.params;
     db.remove(id)
         .then(removedItems => {
-            if(removedItems) {
+            if(removedItems && removedItems > 0) {
                 res.status(200).json({numberOfRemovedUsers: removedItems});
             } else {
                 res.status(404).json({ message: "The user with the specified ID does not exists." });
@@ -76,7 +77,7 @@ server.put('/api/users/:id', (req, res) => {
     } else {
         db.update(id, req.body)
             .then(updateNumber => {
-                if(updateNumber) {
+                if(updateNumber && updateNumber > 0) {
                     res.status(200).json(updateNumber);
                 } else {
                     res.status(404).json({ message: "The user with the specified ID does not exist." });
