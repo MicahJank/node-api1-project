@@ -1,5 +1,6 @@
 // implement your API here
 const express = require('express');
+const cors = require('cors');
 const db = require('./data/db.js');
 
 const server = express();
@@ -12,6 +13,8 @@ server.listen(4000, () => {
 // method will parse it into an actual object, so that when we access req.body,
 // it will be an actual object.
 server.use(express.json());
+
+server.use(cors());
 
 server.post('/api/users', (req, res) => {
     const { name, bio } = req.body;
