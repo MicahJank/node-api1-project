@@ -5,7 +5,13 @@ import userIcon from '../imgs/usericon.png';
 import { Icon, Item } from 'semantic-ui-react';
 
 
-const User = ({ user }) => {
+
+
+const User = ({ user, deleteUser }) => {
+
+    const deleteHandler = () => {
+        deleteUser(user.id);
+    }
 
     return (
         <Item>
@@ -18,6 +24,7 @@ const User = ({ user }) => {
                     <p>{user.bio}</p>
                 </Item.Description>
             </Item.Content>
+            <Icon onClick={deleteHandler} name='user delete' />
         </Item>
     )
 };

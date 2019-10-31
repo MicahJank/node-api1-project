@@ -1,4 +1,4 @@
-import { GET_USERS_FAIL, GET_USERS_SUCCESS, GET_USERS_PENDING, DELETE_USER, ADD_USER, EDIT_USER} from '../actions';
+import { GET_USERS_FAIL, GET_USERS_SUCCESS, GET_USERS_PENDING, DELETE_USER, DELETE_USER_FAIL, ADD_USER, ADD_USER_FAIL, EDIT_USER} from '../actions';
 const initalState = {
     users: [],
     isPending: false,
@@ -29,6 +29,24 @@ export const usersReducer = (state = initalState, action) => {
                 users: action.payload,
                 isPending: false,
                 error: ''
+            }
+            break;
+
+        case ADD_USER:
+            return state;
+            break;
+
+        case ADD_USER_FAIL:
+            return {
+                ...state,
+                error: action.payload
+            };
+            break;
+
+        case DELETE_USER_FAIL:
+            return {
+                ...state,
+                error: action.payload
             }
             break;
 

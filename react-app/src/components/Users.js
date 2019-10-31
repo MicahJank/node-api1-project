@@ -5,10 +5,10 @@ import { Item } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 import User from './User.js';
-import { fetchUsers } from '../actions';
+import { fetchUsers, deleteUser } from '../actions';
 
 
-const Users = ({ fetchUsers, users }) => {
+const Users = ({ fetchUsers, users, deleteUser }) => {
 
     useEffect(() => {
         fetchUsers();
@@ -17,7 +17,7 @@ const Users = ({ fetchUsers, users }) => {
     return (
         <Item.Group>
             {users.map(user => {
-                return <User key={user.id} user={user} />
+                return <User deleteUser={deleteUser} key={user.id} user={user} />
             })}
         </Item.Group>
     )
@@ -31,4 +31,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { fetchUsers })(Users);
+export default connect(mapStateToProps, { fetchUsers, deleteUser })(Users);
