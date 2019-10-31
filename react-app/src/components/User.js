@@ -1,13 +1,15 @@
 import React from 'react';
 
-import { Image, Item } from 'semantic-ui-react';
+import userIcon from '../imgs/usericon.png';
+
+import { Icon, Item } from 'semantic-ui-react';
 
 
 const User = ({ user }) => {
 
     return (
         <Item>
-            <Item.Image size="tiny" src='' />
+            <Icon size='huge' name='user' />
             
             <Item.Content>
                 <Item.Header>{user.name}</Item.Header>
