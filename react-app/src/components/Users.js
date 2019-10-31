@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 
+import { Item } from 'semantic-ui-react';
+
 import { connect } from 'react-redux';
 
 import User from './User.js';
@@ -13,11 +15,11 @@ const Users = ({ fetchUsers, users }) => {
     }, [])
 
     return (
-        <div>
+        <Item.Group>
             {users.map(user => {
                 return <User key={user.id} user={user} />
             })}
-        </div>
+        </Item.Group>
     )
 };
 
