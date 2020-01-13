@@ -81,10 +81,13 @@ server.put('/api/users/:id', (req, res) => {
         db.update(id, req.body)
             .then(updateNumber => {
                 if(updateNumber && updateNumber > 0) {
-                    res.status(200).json(updateNumber);
+                   return db.findById(id)
                 } else {
                     res.status(404).json({ message: "The user with the specified ID does not exist." });
                 }
+            })
+            .then(updatedUser => {
+                res.status(200).json(updatedUser);
             })
             .catch(err => {
                 res.status(500).json({ errorMessage: "The user information could not be modified." });
